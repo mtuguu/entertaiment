@@ -130,6 +130,70 @@ $user->show_users();
 					<h1>Тавтай морил! <span><?php $user->get_fullname($uid); ?></span>!</h1>
 					<p>Өнөөдөр юу хийх гэж байна даа :D</p>
 					
+					<?php if($_GET['action'] == 'createDoneWork'): ?>
+					
+					<form action="home.php?action=createDoneWorkSave" method="post"  enctype="multipart/form-data" name="DoneWorkForm" id="DoneWorkForm" >
+						<!-- Fieldset -->
+						<fieldset>
+							<legend>Хийж гүйцэтгэсэн ажлын талаар мэдээлэл оруулах/ Insert information about what work</legend>
+							
+							<!--
+							<p>
+								<label for="sf">Small field: </label>
+								<input class="sf" name="sf" type="text" value="small input field" />
+								<span class="field_desc">Field description</span>
+							</p>
+							<p>
+								<label for="mf">Medium Field: </label>
+								<input class="mf" name="mf" type="text" value="medium input field" /> <span class="validate_success">A positive message!</span>
+							</p>
+							<p>
+								<label for="lf">Large Field: </label>
+								<input class="lf" name="lf" type="text" value="large input field" /> <span class="validate_error">A negative message!</span>
+							</p>-->
+							<p>
+								<label for="lf">Гарчиг Монголоор </label>
+								<input class="lf" name="mn_title" type="text" value="" /> <span class="validate_error"></span>
+							</p>
+							<p>
+								<!-- WYSIWYG editor -->
+								<textarea cols="200" style="width:100%" ></textarea>
+								<!-- End of WYSIWYG editor -->
+							</p>
+							<p>
+								<label for="lf">Тitle In English </label>
+								<input class="lf" name="en_title" type="text" value="" /> <span class="validate_error"></span>
+							</p>
+							<p>
+								<!-- WYSIWYG editor -->
+								<textarea cols="200" style="width:100%" style="display: inline;"></textarea>
+								<!-- End of WYSIWYG editor -->
+							</p>
+							<p>
+								<label>Public: </label>
+								<input type="checkbox" name="active" />Нийтэд харуулах
+							</p>
+							<p>
+								<label for="dropdown">Category: </label>
+								<select name="type_id" class="dropdown">
+									<option>Please select an option</option>
+									<option>Upload</option>
+									<option>Change</option>
+									<option>Remove</option>
+								</select>
+							</p>
+							
+							<p>
+								<input class="button" type="submit" value="Submit" />
+								<input class="button" type="reset" value="Reset" />
+							</p>
+						</fieldset>
+						<!-- End of fieldset -->
+					
+					</form>
+					<?php endif; ?>
+					
+					<?php if(!isset($_GET['action'])): ?>
 					<div class="pad20">
 					<!-- Big buttons -->
 						<ul class="dash">
@@ -151,6 +215,13 @@ $user->show_users();
 									<span>Users</span>
 								</a>
 							</li>
+							<li>
+								<a href="home.php?action=createDoneWork" title="Хийсэн ажил оруулах" class="tooltip">
+									<img src="assets/icons/20_48x48.png" alt="" />
+									<span>Ажил оруулах</span>
+								</a>
+							</li>
+							<!--
 							<li>
 								<a href="#" title="Your site's statistics" class="tooltip">
 									<img src="assets/icons/4_48x48.png" alt="" />
@@ -222,11 +293,12 @@ $user->show_users();
 									<img src="assets/icons/26_48x48.png" alt="" />
 									<span>Latest comments</span>
 								</a>
-							</li>
+							</li>-->
 						</ul>
 						<!-- End of Big buttons -->
 					</div>
 				
+					
 					<hr />
 					
 					<h1>Notifications</h1>
@@ -689,8 +761,9 @@ $user->show_users();
 							<!-- End of Progressbar -->
 							
 						</div>	
-						
+						<?php endif; ?>
 					</div>
+					
 				</div>
 				<!-- End of Main Content -->
 				
