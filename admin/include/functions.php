@@ -1,7 +1,7 @@
 <?php
 
 include_once 'config.php';
-
+session_start();
 class User {
 
 // DB_Class шинэ объект үүсгэж байна
@@ -46,7 +46,7 @@ public function register_user($username, $userpass, $mail, $active, $created_at,
 		{
      
             $_SESSION['login'] = true;
-            $_SESSION['uid'] = $user_data[0];
+            $_SESSION['uid'] = $user_data['username'];
             return TRUE;
         }
         else
@@ -65,7 +65,7 @@ public function register_user($username, $userpass, $mail, $active, $created_at,
 	{
         $result = mysql_query("SELECT username FROM user WHERE id = $uid");
         $user_data = mysql_fetch_array($result);
-        echo $user_data['username'];
+        echo $user_data[0];
     }
   
 	// Хэрэглэгчид session үүсгэж байгаа функц

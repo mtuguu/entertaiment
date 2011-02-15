@@ -46,7 +46,7 @@ public function register_user($username, $userpass, $mail, $active, $created_at,
 		{
      
             $_SESSION['login'] = true;
-            $_SESSION['id'] = $user_data['id'];
+            $_SESSION['uid'] = $user_data['id'];
             return TRUE;
         }
         else
