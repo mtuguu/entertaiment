@@ -1,11 +1,11 @@
 <?php
 session_start();
-include_once 'include/functions.php';
+include_once 'include/user.class.php';
 include 'include/inc.editor.php';
 $user = new User();
 $user->connect_db();
 
-$uid = $_SESSION['uid'];
+$uid = $_SESSION['id'];
 
 if (!$user->get_session())
 {
