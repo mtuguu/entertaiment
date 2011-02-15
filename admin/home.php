@@ -6,7 +6,6 @@ $user = new User();
 $user->connect_db();
 
 $uid = $_SESSION['uid'];
-echo "uidr".$_SESSION['uid'];
 
 if (!$user->get_session())
 {
