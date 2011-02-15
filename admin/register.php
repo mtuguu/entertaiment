@@ -10,7 +10,7 @@ header("location:home.php");
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") 
 {
-$register = $user->register_user($_POST['name'], $_POST['username'], $_POST['password'], $_POST['email']);
+$register = $user->register_user($_POST['username'], $_POST['userpass'], $_POST['mail'], $_POST['active'], $_POST['created_at'], $_POST['updated_at']);
 if ($register) 
 {
 // Registration Success
@@ -26,14 +26,13 @@ echo 'Registration failed. Email or Username already exits please try again';
 	<head></head>
 	<body>
 <form method="POST" action="register.php" name='reg' >
-Full Name
-<input type="text" name="name"/>
 Username
 <input type="text" name="username"/>
 Password
-<input type="password" name="password"/>
+<input type="password" name="userpass"/>
 Email
-<input type="text" name="email"/>
+<input type="text" name="mail"/>
+<input
 <input type="submit" value="Register"/>
 </form>
 	</body>
