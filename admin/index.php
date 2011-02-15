@@ -1,6 +1,6 @@
 <?php
 session_start();
-include_once 'include/functions.php';
+include_once 'include/user.class.php';
 $user = new User();
 $user->connect_db();
 if ($user->get_session())
