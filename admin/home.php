@@ -6,7 +6,7 @@ $user = new User();
 $user->connect_db();
 
 $uid = $_SESSION['uid'];
-
+//echo "uid".$_SESSION['uid'];
 if (!$user->get_session())
 {
    header("location:index.php");

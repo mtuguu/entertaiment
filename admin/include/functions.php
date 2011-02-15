@@ -39,14 +39,14 @@ public function register_user($username, $userpass, $mail, $active, $created_at,
 		$password = md5($password);
 		$emailusername = mysql_real_escape_string($emailusername);
         $result = mysql_query(sprintf("SELECT id from user WHERE mail = '%s' or username='%s' and userpass = '%s'", $emailusername, $emailusername, $password));
-        $user_data = mysql_fetch_array($result);
+        $user_data = mysql_fetch_row($result);
         $no_rows = mysql_num_rows($result);
 		
         if ($no_rows == 1) 
 		{
      
             $_SESSION['login'] = true;
-            $_SESSION['uid'] = $user_data['uid'];
+            $_SESSION['uid'] = $user_data[0];
             return TRUE;
         }
         else
@@ -63,9 +63,9 @@ public function register_user($username, $userpass, $mail, $active, $created_at,
 	// Хэрэглэгчийн бүтэн нэрийг шүүж гаргаж ирж байгаа функц
     public function get_fullname($uid) 
 	{
-        $result = mysql_query("SELECT name FROM users WHERE uid = $uid");
+        $result = mysql_query("SELECT username FROM user WHERE id = $uid");
         $user_data = mysql_fetch_array($result);
-        echo $user_data['name'];
+        echo $user_data['username'];
     }
   
 	// Хэрэглэгчид session үүсгэж байгаа функц
