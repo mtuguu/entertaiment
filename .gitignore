@@ -1,0 +1,10 @@
+*.swp
+*.sql
+images/*
+uploads/gallery_images/medium/*
+uploads/gallery_images/original/*
+uploads/gallery_images/small/*
+admin/assets/icons/*
+admin/assers/*
+admin/images/*
+admin/documentation/*
