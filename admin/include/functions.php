@@ -11,20 +11,20 @@ public function connect_db()
 }
 	
 // Хэрэглэгч бүртгэх функц   
-public function register_user($name, $username, $password, $email) 
+public function register_user($username, $userpass, $mail, $active, $created_at, $updated_at) 
 {
-        $password = md5($password);
+        $userpass = md5($userpass);
 		$username = mysql_real_escape_string($username);
 		$email = mysql_real_escape_string($email);
 		$name = mysql_real_escape_string($name);
 
-		$sql = mysql_query(sprintf("SELECT uid from users WHERE username = '%s' or email = '%s'", $username, $email));
+		$sql = mysql_query(sprintf("SELECT id from user WHERE username = '%s' or mail = '%s'", $username, $email));
         $no_rows = mysql_num_rows($sql);
 		
 		if ($no_rows == 0) 
 		{
         
-		$result = mysql_query(sprintf("INSERT INTO users(username, password, name, email) values ('%s', '%s','%s','%s')",$username, $password, $name, $email)) or die(mysql_error());
+		$result = mysql_query(sprintf("INSERT INTO user(username, userpass, mail, active, created_at, updated_at) values ('%s', '%s','%s','%s','%s','%s')",$username, $userpass, $mail, $active, date('Y-m-d H:m:s'), date('Y-m-d H:m:s'))) or die(mysql_error());
         return $result;
 		}
 		else
@@ -38,7 +38,7 @@ public function register_user($name, $username, $password, $email)
 	{
 		$password = md5($password);
 		$emailusername = mysql_real_escape_string($emailusername);
-        $result = mysql_query(sprintf("SELECT uid from users WHERE email = '%s' or username='%s' and password = '%s'", $emailusername, $emailusername, $password));
+        $result = mysql_query(sprintf("SELECT id from user WHERE mail = '%s' or username='%s' and userpass = '%s'", $emailusername, $emailusername, $password));
         $user_data = mysql_fetch_array($result);
         $no_rows = mysql_num_rows($result);
 		
