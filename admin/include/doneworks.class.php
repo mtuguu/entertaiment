@@ -6,6 +6,8 @@
 		var $db_error_msg; 
 		
 		var $lang;
+		
+		var $id;
 		var $en_title;
 		var $mn_title;
 		var $en_desc;
@@ -18,15 +20,20 @@
 		var $updated_at;
 		
 		function ConnDB(){
-			$this->conn = new DB_Class();
+			$this->db = new DB_Class();
+			$this->conn = $this->db->db_conn;
+			$this->db_error_msg = '';
 		}
 		
 		function Insert($type_id, $mn_title, $en_title, $mn_desc, $en_desc, $image, $file, $active){
-			$query = "INSERT INTO done_works (type_id, mn_title, en_title, mn_desc, en_desc, image, file, active) 
-			VALUES($type_id, $mn_title, $en_title, $mn_desc, $en_desc, $image, $file, $active)";
-			$result = mysql_query($query);
+			$query = sprintf("INSERT INTO done_works 
+				(type_id, mn_title, en_title, mn_desc, en_desc, image, file, active, created_at, updated_at) 
+			VALUES('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', now(), now())", 
+				$type_id, $mn_title, $en_title, $mn_desc, $en_desc, $image, $file, $active);
+			$result = mysql_query($query, $this->conn);
 			if(!$result)
 				$this->db_error_msg .= mysql_error();
+			else $this->db_error_msg = "Success";
 		}
 		
 		
@@ -49,6 +56,29 @@
 		
 		function get_done_works(){
 			$query = "SELECT * FROM done_works";
+			$result_array = array();
+			
+			$result = mysql_query($query);
+			
+			if(!$result)
+				$this->db_error_msg .= mysql_error();
+				
+			while($line = mysql_fetch_row($result)){
+				$temp_obj = new DoneWorks();
+				
+				$temp_obj->id = $line['id'];
+				$temp_obj->type_id = $result['type_id'];
+				$temp_obj->en_title = $result['en_title'];
+				$temp_obj->mn_title = $result['mn_title'];
+				$temp_obj->en_desc = $result['en_desc'];
+				$temp_obj->mn_desc = $result['mn_desc'];
+				$temp_obj->image = $result['image'];
+				$temp_obj->file = $result['file'];
+				$temp_obj->active = $result['active'];
+				$temp_obj->created_at = $result['created_at'];
+				$temp_obj->updated_at = $result['updated_at'];
+				array_push($result_array, $temp_obj);
+			}
 		}
 	}
 	

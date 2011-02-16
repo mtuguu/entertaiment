@@ -40,6 +40,10 @@ $user->show_users();
 		<script type="text/javascript" src="js/hoverIntent.js"></script>
 		<script type="text/javascript" src="js/superfish.js"></script>
 		<script type="text/javascript" src="js/custom.js"></script>
+		
+		<script type="text/javascript" src="js/ jquery-1.3.2.js" ></script>
+		<script type="text/javascript" src="js/ajaxupload.3.5.js" ></script>
+		<link rel="stylesheet" type="text/css" href="./styles.css" />
 		<!-- End of Libraries -->	
 	</head>
 	<body>
@@ -132,32 +136,46 @@ $user->show_users();
 					
 					<?php if($_GET['action'] == 'createDoneWork'): ?>
 					
-					<form action="home.php?action=createDoneWorkSave" method="post"  enctype="multipart/form-data" name="DoneWorkForm" id="DoneWorkForm" >
+					<form action="test.php?action=createDoneWorkSave" method="post"  enctype="multipart/form-data" name="DoneWorkForm" id="DoneWorkForm" >
 						<!-- Fieldset -->
 						<fieldset>
 							<legend>Хийж гүйцэтгэсэн ажлын талаар мэдээлэл оруулах/ Insert information about what work</legend>
-							
-							<!--
-							<p>
-								<label for="sf">Small field: </label>
-								<input class="sf" name="sf" type="text" value="small input field" />
-								<span class="field_desc">Field description</span>
-							</p>
-							<p>
-								<label for="mf">Medium Field: </label>
-								<input class="mf" name="mf" type="text" value="medium input field" /> <span class="validate_success">A positive message!</span>
-							</p>
-							<p>
-								<label for="lf">Large Field: </label>
-								<input class="lf" name="lf" type="text" value="large input field" /> <span class="validate_error">A negative message!</span>
-							</p>-->
+<script type="text/javascript" >
+	$(function(){
+		var btnUpload=$('#upload');
+		var status=$('#status');
+		new AjaxUpload(btnUpload, {
+			action: 'upload-file.php',
+			name: 'uploadfile',
+			onSubmit: function(file, ext){
+				 if (! (ext && /^(jpg|png|jpeg|gif)$/.test(ext))){ 
+                    // extension is not allowed 
+					status.text('Зөвхөн JPG, PNG эсвэл GIF зургийн формат зөвшөөрөгдсөн.');
+					return false;
+				}
+				status.text('Хуулж байж...');
+			},
+			onComplete: function(file, response){
+				//On completion clear the status
+				status.text('');
+				//Add uploaded file to list
+				if(response==="success"){
+					$('<li></li>').appendTo('#files').html(file).addClass('success');
+				} else{
+					$('<li></li>').appendTo('#files').text(file).addClass('error');
+				}
+			}
+		});
+		
+	});
+</script>
 							<p>
 								<label for="lf">Гарчиг Монголоор </label>
 								<input class="lf" name="mn_title" type="text" value="" /> <span class="validate_error"></span>
 							</p>
 							<p>
 								<!-- WYSIWYG editor -->
-								<textarea cols="200" style="width:100%" ></textarea>
+								<textarea name="mn_desc" cols="200" style="width:100%" ></textarea>
 								<!-- End of WYSIWYG editor -->
 							</p>
 							<p>
@@ -166,7 +184,7 @@ $user->show_users();
 							</p>
 							<p>
 								<!-- WYSIWYG editor -->
-								<textarea cols="200" style="width:100%" style="display: inline;"></textarea>
+								<textarea name="en_desc" cols="200" style="width:100%" style="display: inline;"></textarea>
 								<!-- End of WYSIWYG editor -->
 							</p>
 							<p>
@@ -182,7 +200,16 @@ $user->show_users();
 									<option>Remove</option>
 								</select>
 							</p>
-							
+							<p>
+								<label>Зураг / Image</label>
+								<input type="file" name="uploadimage" />
+								<input type="button" name="" value="Upload" class="button" />
+							</p>
+							<p>
+								<label>MP3, MP4, FLV </label>
+								<input type="file" name="uploadfile" />
+								<input type="button" name="" value="Upload" class="button" />
+							</p>
 							<p>
 								<input class="button" type="submit" value="Submit" />
 								<input class="button" type="reset" value="Reset" />
