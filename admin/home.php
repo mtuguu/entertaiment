@@ -2,10 +2,15 @@
 session_start();
 include_once 'include/user.class.php';
 include 'include/inc.editor.php';
+include_once 'include/worktype.class.php';
+
 $user = new User();
 $user->connect_db();
 
 $uid = $_SESSION['uid'];
+
+$slc = new WorkType();
+
 
 if (!$user->get_session())
 {
@@ -41,9 +46,8 @@ $user->show_users();
 		<script type="text/javascript" src="js/superfish.js"></script>
 		<script type="text/javascript" src="js/custom.js"></script>
 		
-		<script type="text/javascript" src="js/ jquery-1.3.2.js" ></script>
 		<script type="text/javascript" src="js/ajaxupload.3.5.js" ></script>
-		<link rel="stylesheet" type="text/css" href="./styles.css" />
+		<link rel="stylesheet" type="text/css" href="css/styles.css" />
 		<!-- End of Libraries -->	
 	</head>
 	<body>
@@ -77,7 +81,7 @@ $user->show_users();
 				<!-- The navigation bar -->
 				<div id="navbar">
 					<ul class="nav">
-						<li><a href="">Dashboard</a></li>
+						<li><a href="home.php">Dashboard</a></li>
 						<li><a href="">Users</a></li>
 						<li><a href="">Newsletter</a></li>
 						<li><a href="">Modules</a></li>
@@ -131,7 +135,7 @@ $user->show_users();
 				<!-- Main Content -->
 				<div id="content">
 					<div id="main">
-					<h1>Тавтай морил! <span><?php $user->get_fullname($uid); ?></span>!</h1>
+					<h1>Тавтай морил, <span><?php $user->get_fullname($uid); ?></span>!</h1>
 					<p>Өнөөдөр юу хийх гэж байна даа :D</p>
 					
 					<?php if($_GET['action'] == 'createDoneWork'): ?>
@@ -211,6 +215,9 @@ $user->show_users();
 								<input type="button" name="" value="Upload" class="button" />
 							</p>
 							<p>
+								<?php echo $slc->selectBox; ?>
+							</p>
+							<p>
 								<input class="button" type="submit" value="Submit" />
 								<input class="button" type="reset" value="Reset" />
 							</p>
@@ -219,7 +226,10 @@ $user->show_users();
 					
 					</form>
 					<?php endif; ?>
-					
+					<?php
+						if($_GET['action'] == 'editMenu')
+							echo '<p class="sidebar">'.$slc->menuStructure.'</p>';
+					?>
 					<?php if(!isset($_GET['action'])): ?>
 					<div class="pad20">
 					<!-- Big buttons -->
@@ -248,7 +258,7 @@ $user->show_users();
 									<span>Ажил оруулах</span>
 								</a>
 							</li>
-							<!--
+							
 							<li>
 								<a href="#" title="Your site's statistics" class="tooltip">
 									<img src="assets/icons/4_48x48.png" alt="" />
@@ -310,9 +320,9 @@ $user->show_users();
 								</a>
 							</li>
 							<li>
-								<a href="#" title="Lorem ipsum" class="tooltip">
+								<a href="home.php?action=editMenu" title="Lorem ipsum" class="tooltip">
 									<img src="assets/icons/20_48x48.png" alt="" />
-									<span>Media</span>
+									<span>Ангилал</span>
 								</a>
 							</li>
 							<li>
@@ -320,7 +330,7 @@ $user->show_users();
 									<img src="assets/icons/26_48x48.png" alt="" />
 									<span>Latest comments</span>
 								</a>
-							</li>-->
+							</li>
 						</ul>
 						<!-- End of Big buttons -->
 					</div>
@@ -796,7 +806,6 @@ $user->show_users();
 				
 				<!-- Sidebar -->
 				<div id="sidebar">
-				
 					<h2>Accordion</h2>
 					<!-- Accordion -->
 					<div id="accordion">

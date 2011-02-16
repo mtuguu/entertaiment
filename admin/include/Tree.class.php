@@ -1,5 +1,4 @@
 <?php
-	require('include/config.php');
 	
 	/************************************
 	 * ClassName: TreeNode
@@ -53,23 +52,26 @@
 			$this->conn = new mysqli(
 				DB_SERVER,
 				DB_USERNAME,
-				DB_PASSPASS,
+				DB_PASSWORD,
 				DB_DATABASE) or die("Connection error: ".mysqli_connect_error());
+			$this->conn->set_charset("UTF8");
 			
 			/*
 			 * Цэстэй холбоотой бүх өгөгдлийг авна.
 			 * */
 			$menu_items = $this->conn->query('SELECT * FROM work_type');
-
+			
+			//return "Blah".mysqli_connect_errno(). mysqli_connect_error();
+			
 			if($menu_items){
-				while(list($id, $parent_id, $is_parent, $mn, $en)
+				while(list($id, $parent_id, $mn_name, $en_name)
 					 	= $menu_items->fetch_array()){
 					/*
 					 * ӨС-гийн бичлэг бүрийн хувьд түр зуурын мөчир үүсгээд 
 					 * Мөчрүүдийг агуулах хүснэгт рүү хийнэ
 					 * */
 					$tempNode = new TreeNode(
-						$id, $parent_id, $is_parent, $mn, $en);
+						$id, $parent_id, 0, $mn_name, $en_name);
 					$tempNode->childNodes = array();
 					
 					array_push($this->allNodes, $tempNode);
@@ -117,8 +119,8 @@
 		 * Цэсийг зурах функц
 		 * 
 		 * */
-		function render(){			
-			$this->rv = '<div id="myslidemenu" class="jqueryslidemenu"><ul>';
+		function selectRender(){			
+			$this->rv = '<select>';
 			
 			/*
 			 * Үндсэн мөчрүүдийн хувьд тэдний хойч үеийн судалгааг хийж,
@@ -128,13 +130,15 @@
 				/*
 				 * DFS(Depth First Search) буюу гүний нэвтэрлтийг хийнэ
 				 * */
+				 //$this->rv .= '<option></option>';
 				$this->selectDisplay($node->nodeId);
 			}
-			$this->rv .= '</ul><br style="clear: left" /></div>'; 
+			$this->rv .= '</select>'; 
 			/*
 			 * Оноосон утгуудын нийлбэр цогц, HTML кодыг буцаана
 			 * */
 			return $this->rv; 
+			//return "HELLO";
 		}
 		public function selectDisplay($id){
 			$ind = $this->getByNode($id);
@@ -142,21 +146,20 @@
 			$sr = count($this->allNodes[$ind]->childNodes);
 			
 			if(0 == $sr){
-				$this->rv .= '<li><a href="#">'.$this->allNodes[$ind]->nodeId.' '.$this->allNodes[$ind]->menuLabel.'</a></li>';
+				$this->rv .= '<option value="'.$this->allNodes[$ind]->nodeId.'">'.$this->allNodes[$ind]->nodeId.' '.$this->allNodes[$ind]->mn_name.'</option>';
 			}
 			else{
-				$this->rv .= 	'<li><a href="#">'.$this->allNodes[$ind]->nodeId.' '.$this->allNodes[$ind]->menuLabel.'</a><ul>';
+				$this->rv .= 	'<optgroup label="'.$this->allNodes[$ind]->nodeId.' '.$this->allNodes[$ind]->mn_name.'">';
 
 				foreach($this->allNodes[$ind]->childNodes as $node){
 					$this->selectDisplay($node->nodeId);
 				}
-				$this->rv .= '</ul></li>'; 
+				$this->rv .= '</optgroup>'; 
 			}
 		}
-		f
 		
 		
-		unction render(){			
+		function render(){			
 			$this->rv = '<div id="myslidemenu" class="jqueryslidemenu"><ul>';
 			
 			/*
@@ -225,13 +228,13 @@
 			$sr = count($this->allNodes[$ind]->childNodes);
 			if(0 == $sr){
 				$this->erv .= "<li><a href='#'>".$this->allNodes[$ind]->nodeId."</a> "
-				.$this->allNodes[$ind]->menuLabel.$this->editBox($this->allNodes[$ind]->nodeId, 
+				.$this->allNodes[$ind]->mn_name.$this->editBox($this->allNodes[$ind]->nodeId, 
 				$this->allNodes[$ind]->parentId)."</li>";
 			}
 			else{
 				$this->erv .= "<li><a href='#'>".$this->allNodes[$ind]->nodeId."</a> "
-				.$this->allNodes[$ind]->menuLabel.$this->editBox($this->allNodes[$ind]->nodeId, 
-				$this->allNodes[$ind]->parentId)."<ul>";
+				.$this->allNodes[$ind]->mn_name.$this->editBox($this->allNodes[$ind]->nodeId, 
+				$this->allNodes[$ind]->parentId)."<ul style='margin-left: 20px;'>";
 				for($i = 0; $i < $sr; $i++){
 					$this->editDisplay($this->allNodes[$ind]->childNodes[$i]->nodeId, $this->allNodes[$ind]->childNodes[$i]->parentId);
 				}
@@ -252,7 +255,7 @@
 			for($i = 0; $i < $this->numNodes; $i++){
 				$selected = '';
 				
-				$val .= "<option value='".$this->allNodes[$i]->nodeId."' ".$selected.">".$this->allNodes[$i]->menuLabel."</option>\n";
+				$val .= "<option value='".$this->allNodes[$i]->nodeId."' ".$selected.">".$this->allNodes[$i]->mn_name."</option>\n";
 					
 			}
 			$val .= "</select>\n";
