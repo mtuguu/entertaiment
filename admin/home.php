@@ -53,21 +53,17 @@ $user->show_users();
 	<body>
 		<!-- Container -->
 		<div id="container">
-		
 			<!-- Header -->
 			<div id="header">
-				
 				<!-- Top -->
 				<div id="top">
 					<!-- Logo -->
 					<div class="logo"> 
-						<a href="#" title="Administration Home" class="tooltip"><img src="assets/logo.png" alt="Wide Admin" /></a> 
+						<a href="home.php" title="Эхлэл" class="tooltip"><img src="assets/logo.png" alt="Wide Admin" /></a> 
 					</div>
 					<!-- End of Logo -->
-					
 					<!-- Meta information -->
 					<div class="meta">
-						<p>Тавтай морил! <?php $user->get_fullname($uid); ?></p>
 						<ul>
 							<li><a href="?q=logout" title="Сайтын удирдлагын хэгээс гарах" class="tooltip"><span class="ui-icon ui-icon-power"></span>Гарах</a></li>
 							<li><a href="#" title="Сонгогдсон тохиргоог өөрчлөх" class="tooltip"><span class="ui-icon ui-icon-wrench"></span>Тохиргоо</a></li>
@@ -77,50 +73,19 @@ $user->show_users();
 					<!-- End of Meta information -->
 				</div>
 				<!-- End of Top-->
-			
 				<!-- The navigation bar -->
 				<div id="navbar">
 					<ul class="nav">
 						<li><a href="home.php">Эхлэл</a></li>
-						<li><a href="">Users</a></li>
-						<li><a href="">Newsletter</a></li>
-						<li><a href="">Modules</a></li>
-						<li>
-							<a href="">Multi Level Menu</a>
-							<ul>
-								<li><a href="">Menu Link 1</a></li>
-								<li><a href="">Menu Link 2</a></li>
-								<li><a href="">Menu Link 3</a>
-									<ul>
-										<li><a href="">Menu Link 1</a></li>
-										<li><a href="">Menu Link 2</a>
-											<ul>
-												<li><a href="">Menu Link 1</a></li>
-												<li><a href="">Menu Link 2</a></li>
-												<li><a href="">Menu Link 3</a></li>
-											</ul>
-										</li>
-										<li><a href="">Menu Link 3</a></li>
-										<li><a href="">Menu Link 4</a></li>
-										<li><a href="">Menu Link 5</a></li>
-										<li><a href="">Menu Link 6</a></li>
-									</ul>
-								</li>
-								<li><a href="">Menu Link 4</a></li>
-								<li><a href="">Menu Link 5</a></li>
-								<li><a href="">Menu Link 6</a></li>
-							</ul>
-						</li>
+						<li><a href="">Хэрэглэгчид</a></li>
 					</ul>
 				</div>
 				<!-- End of navigation bar" -->
 			</div>
 			<!-- End of Header -->
-			
 			<!-- Background wrapper -->
 			<div id="bgwrap">
-		
-				<!-- Main Content -->
+			<!-- Main Content -->
 				<div id="content">
 					<div id="main">
 					<h1>Тавтай морил, <span><?php $user->get_fullname($uid); ?></span>!</h1>
@@ -212,10 +177,6 @@ $user->show_users();
 					
 					</form>
 					<?php endif; ?>
-					<?php
-						if($_GET['action'] == 'editMenu')
-							echo '<p class="sidebar">'.$slc->menuStructure.'</p>';
-					?>
 					<?php if(!isset($_GET['action'])): ?>
 					<div class="pad20">
 					<!-- Big buttons -->
@@ -306,7 +267,6 @@ $user->show_users();
 								</a>
 							</li>
 						</ul>
-						<!-- End of Big buttons -->
 					</div>
 						<?php endif; ?>
 					</div>
@@ -316,7 +276,7 @@ $user->show_users();
 				
 				<!-- Sidebar -->
 				<div id="sidebar">
-					<h2>Datepicker</h2>
+					<h2>Цагалбар</h2>
 					<!-- Datepicker -->
 					<div id="datepicker"></div>
 					<!-- End of Datepicker -->
